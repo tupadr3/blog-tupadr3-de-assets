@@ -1,0 +1,55 @@
+image: maven:3.3.9-jdk-8
+
+variables:
+  MAVEN_OPTS: "-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true -Dmaven.repo.local=/cache/maven.repository"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  GIT_REPO_ORIGIN: ssh://git@dev.tupadr3.de:10022
+  GIT_STRATEGY: clone
+  CI_DEBUG_TRACE: "true"
+
+stages:
+ - build
+ - deploy
+ - release
+ 
+test:
+  stage: build
+  script:
+    - "mvn verify $MAVEN_CLI_OPTS"
+  only:
+    - /^feature\/.*$/
+    - /^release\/.*$/
+
+deploy snapshot:
+  stage: deploy
+  script:
+    - "mvn deploy $MAVEN_CLI_OPTS"
+  only:    
+    - develop
+
+start release:
+  stage: release
+  script:
+    - git remote set-url origin $GIT_REPO_ORIGIN/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git
+    - git checkout master
+    - git checkout develop
+    - mvn -B jgitflow:release-start $MAVEN_CLI_OPTS
+    - git push origin --all
+  only:
+    - develop
+  when: manual
+
+finish release:
+  stage: release
+  script:
+    - git remote set-url origin $GIT_REPO_ORIGIN/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME.git
+    - git checkout master
+    - git checkout develop
+    - git checkout $CI_BUILD_REF_NAME
+    - mvn -B jgitflow:release-finish $MAVEN_CLI_OPTS
+    - git push origin --all 
+    - git push origin --tags 
+    - git push origin --delete $CI_BUILD_REF_NAME
+  only:
+    - /^release\/.*$/
+  when: manual

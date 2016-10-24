@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.tupadr3.testing.java</groupId>
+	<artifactId>gitlab-ci-jgitflow</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>gitlab-ci-jgitflow</name>
+	<url>http://tupadr3.de</url>
+	<developers>
+		<developer>
+			<id>tupadr3</id>
+			<name>tupadr3</name>
+			<email>dev@tupadr3.de</email>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+2</timezone>
+		</developer>		
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.repo.base>https://dev.tupadr3.de/nexus3/repository</project.repo.base>
+		<project.deps.jgitflow-plugin.version>1.0-m5.1</project.deps.jgitflow-plugin.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Build Repo</name>
+			<url>${project.repo.base}/maven-releases</url>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>snapshots</id>
+			<name>Snapshot Repo</name>
+			<url>${project.repo.base}/maven-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sonatype-public-repository</id>
+			<url>https://oss.sonatype.org/content/groups/public</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>external.atlassian.jgitflow</groupId>
+				<artifactId>jgitflow-maven-plugin</artifactId>
+				<version>${project.deps.jgitflow-plugin.version}</version>
+				<configuration>
+					<pushReleases>false</pushReleases>
+					<releaseBranchVersionSuffix>RC</releaseBranchVersionSuffix>
+					<localOnly>true</localOnly>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

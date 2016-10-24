@@ -1,0 +1,21 @@
+# Default dot-files
+*.classpath
+*.project
+*.settings
+*.groovy
+*.iml
+*.factorypath
+*.versionsBackup
+
+# Named files
+rebel.xml
+build.props
+npm-debug.log
+
+# Folders
+.idea/
+.assets/
+target/
+node_modules/
+.tmp/
+
