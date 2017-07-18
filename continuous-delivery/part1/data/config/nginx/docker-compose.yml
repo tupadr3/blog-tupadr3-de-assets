@@ -1,0 +1,25 @@
+nginx:
+  container_name: nginx
+  restart: always
+  image: nginx:alpine
+  ports:
+    - "80:80"
+    - "443:443"    
+    - "10443:10443"
+    - "10444:10444"
+  volumes:
+    # nginx config 
+    - ./assets/conf.d:/etc/nginx/conf.d:ro
+    - ./assets/nginx.conf:/etc/nginx/nginx.conf:ro
+    - ./assets/htpasswd:/etc/nginx/.htpasswd:ro
+    - ./assets/dhparam.pem:/etc/nginx/dhparam.pem
+    
+    # static html files
+    - /data/www/html:/data/www/html:ro  
+    
+    # letsencrypt
+    - /data/config/letsencrypt/webroot:/data/www/letsencrypt
+    - /data/config/letsencrypt/etc:/etc/letsencrypt
+
+    # log files
+    - /data/logs/nginx:/var/log/nginx

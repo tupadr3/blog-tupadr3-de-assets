@@ -1,0 +1,10 @@
+nexus:
+  container_name: nexus
+  restart: always
+  image: sonatype/nexus3
+  ports:
+    - "172.17.0.1:10082:8081"
+    - "172.17.0.1:10083:8082"
+    - "172.17.0.1:10084:8083"
+  volumes:
+    - /data/docker/nexus/nexus-data:/nexus-data

@@ -1,0 +1,104 @@
+version: '2'
+
+services:
+  redis:
+    container_name: gitlab-redis
+    restart: always
+    image: sameersbn/redis:latest
+    command:
+    - --loglevel warning
+    volumes:
+    - /data/docker/redis:/var/lib/redis:Z
+
+  postgresql:
+    container_name: gitlab-postgresql
+    restart: always
+    image: sameersbn/postgresql:9.6-2
+    environment:
+      - DB_USER=gitlab
+      # Change DB_PASS to something new meaningfull
+      - DB_PASS=xxxxxxx-DB_PASS-xxxxxxxxxxx
+      - DB_NAME=gitlabhq_production
+      - DB_EXTENSION=pg_trgm
+    volumes:
+      - /data/docker/postgresql:/var/lib/postgresql:Z
+
+  gitlab:
+    container_name: gitlab
+    restart: always
+    image: sameersbn/gitlab:9.3.5
+    depends_on:
+     - redis
+     - postgresql
+    ports:
+      - "10080:80"
+      - "10022:22"
+    environment:
+      - DEBUG=false
+      
+      - DB_ADAPTER=postgresql
+      - DB_HOST=postgresql
+      - DB_PORT=5432
+      - DB_USER=gitlab
+      - DB_PASS=xxxxxxx-DB_PASS-xxxxxxxxxxx
+      - DB_NAME=gitlabhq_production
+
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+  
+      - TZ=Europe/Amsterdam
+      - GITLAB_TIMEZONE=Amsterdam
+      
+      - GITLAB_SECRETS_SECRET_KEY_BASE=xxxxxxx-GITLAB_SECRET-xxxxxxxxxxx
+      - GITLAB_SECRETS_OTP_KEY_BASE=xxxxxxx-GITLAB_OTP-xxxxxxxxxxx
+      - GITLAB_SECRETS_DB_KEY_BASE=xxxxxxx-GITLAB_KEY-xxxxxxxxxxx
+
+      - GITLAB_HOST=gitlab.tupadr3.de
+      - GITLAB_HTTPS=true
+      - GITLAB_PORT=443
+      - GITLAB_SSH_PORT=10022
+      - GITLAB_RELATIVE_URL_ROOT=
+      - GITLAB_ROOT_PASSWORD=xxxxxxx-GITLAB_ROOT-xxxxxxxxxxx
+
+      - GITLAB_NOTIFY_ON_BROKEN_BUILDS=true
+      - GITLAB_NOTIFY_PUSHER=false
+      - GITLAB_SIGNUP_ENABLED=false
+      
+
+      - GITLAB_EMAIL=gitlab@tupadr3.de
+      - GITLAB_EMAIL_REPLY_TO=gitlab@tupadr3.de
+      - GITLAB_EMAIL_DISPLAY_NAME=gitlab
+      - GITLAB_INCOMING_EMAIL_ADDRESS=gitlab@tupadr3.de
+
+      - GITLAB_BACKUPS=daily
+      - GITLAB_BACKUP_TIME=03:15
+
+      # keep backups for 2 days
+      - GITLAB_BACKUP_EXPIRY=172800
+
+      - OAUTH_GITHUB_API_KEY=xxxxxxx-GITHUB-API-xxxxxxx
+      - OAUTH_GITHUB_APP_SECRET=xxxxxxx-GITHUB-SECRET-xxxxxxx
+
+      - SMTP_ENABLED=true
+      - SMTP_DOMAIN=dev.tupadr3.de
+
+      - SMTP_HOST=xxxxxxx-SMTP_HOST-xxxxxxx
+      - SMTP_PORT=587
+      - SMTP_USER=xxxxxxx-SMTP_USER-xxxxxxx
+      - SMTP_PASS=xxxxxxx-SMTP_PASS-xxxxxxx
+      - SMTP_STARTTLS=true
+      - SMTP_AUTHENTICATION=login
+
+      - IMAP_ENABLED=false
+      - IMAP_HOST=xxxxxxx-HOST-xxxxxxx
+      - IMAP_PORT=993
+      - IMAP_USER=xxxxxxx-IMAP_USER-xxxxxxx
+      - IMAP_PASS=xxxxxxx-IMAP_PASS-xxxxxxx
+      - IMAP_SSL=true
+      - IMAP_STARTTLS=false
+
+      - SIDEKIQ_CONCURRENCY=5
+
+    volumes:
+      - /data/docker/gitlab:/home/git/data
+      - /data/logs/gitlab:/home/git/gitlab/log

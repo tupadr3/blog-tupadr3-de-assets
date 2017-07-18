@@ -1,0 +1,21 @@
+concurrent = 1
+
+[[runners]]
+  name = "gitlab-ci-multi-runner"
+  url = "xxxxxxx-CI_SERVER_URL-xxxxxxx"
+  token = "xxxxxxx-RUNNER_TOKEN-xxxxxxx"
+  executor = "docker"
+  [runners.ssh]
+  [runners.docker]
+    tls_verify = false
+    image = ""
+    privileged = false
+    disable_cache = false
+  [runners.parallels]
+    base_name = ""
+    disable_snapshots = false
+  [runners.virtualbox]
+    base_name = ""
+    disable_snapshots = false
+  [runners.cache]
+    Insecure = false
