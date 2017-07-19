@@ -1,0 +1,9 @@
+# gitlab exclude
+gitlab/tmp
+
+# nexus 
+nexus/nexus-data/cache
+nexus/nexus-data/log
+nexus/nexus-data/tmp
+nexus/nexus-data/blobs/default
+nexus/nexus-data/blobs/docker-mirror
