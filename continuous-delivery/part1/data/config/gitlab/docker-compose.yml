@@ -15,9 +15,12 @@ services:
     restart: always
     image: sameersbn/postgresql:9.6-2
     environment:
+      # Change passwords to something new meaningfull
       - DB_USER=gitlab
-      # Change DB_PASS to something new meaningfull
       - DB_PASS=xxxxxxx-DB_PASS-xxxxxxxxxxx
+      - REPLICATION_USER=repluser
+      - REPLICATION_PASS=xxxxxxx-REPLICATION_PASS-xxxxxxxxxxx
+
       - DB_NAME=gitlabhq_production
       - DB_EXTENSION=pg_trgm
     volumes:
