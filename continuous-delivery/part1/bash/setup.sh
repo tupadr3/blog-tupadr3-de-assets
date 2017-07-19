@@ -38,6 +38,7 @@ dpkg-reconfigure -f noninteractive tzdata
 # check locale & make sure the correct local is selected. In my case de_DE.UTF-8
 cp /etc/locale.gen /etc/locale.gen.sav
 sed -i 's/^# de_DE.UTF-8/de_DE.UTF-8/g' /etc/locale.gen
+sed -i 's/^# en_US.UTF-8/en_US.UTF-8/g' /etc/locale.gen
 dpkg-reconfigure -f noninteractive locales
 export LANGUAGE=de_DE.UTF-8
 export LANG=de_DE.UTF-8
