@@ -13,9 +13,6 @@ else
     exit 0
 fi
 
-# add additional host names
-echo "gitlab.tupadr3.de" > /etc/hostname
-
 #################################
 # install
 #################################
