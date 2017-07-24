@@ -1,0 +1,5 @@
+[http]
+	sslVerify = false
+[user]
+	name = ci
+	email = ci@tupadr3.de

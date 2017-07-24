@@ -22,7 +22,8 @@ apt-get update -y && apt-get upgrade -y
 apt-get install -y ssh openssl openssh-server locate aptitude ntp ntpdate \
     ufw bridge-utils apt-transport-https \
     htop nload curl wget \
-    putty-tools joe 
+    putty-tools joe \
+    fuse
 
 # udev was necessary as the base image didn't install it by default
 apt-get install -y udev
@@ -243,8 +244,8 @@ fi
 #################################
 BORG_VERSION=`curl -s https://api.github.com/repos/borgbackup/borg/releases/latest | grep tag_name | cut -d '"' -f 4`
 echo "Installing borg-backup $BORG_VERSION"
-curl -L "https://github.com/borgbackup/borg/releases/download/$BORG_VERSION/borg-linux64" > /usr/local/bin/borg
-chown root:root /usr/local/bin/borg
-chmod 755 /usr/local/bin/borg
+curl -L "https://github.com/borgbackup/borg/releases/download/$BORG_VERSION/borg-linux64" > /usr/bin/borg
+chown root:root /usr/bin/borg
+chmod 755 /usr/bin/borg
 
 echo "Setting up `hostname` done"

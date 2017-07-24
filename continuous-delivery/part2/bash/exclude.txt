@@ -1,5 +1,6 @@
 # gitlab exclude
 gitlab/tmp
+gitlab/uploads/tmp
 
 # nexus 
 nexus/nexus-data/cache

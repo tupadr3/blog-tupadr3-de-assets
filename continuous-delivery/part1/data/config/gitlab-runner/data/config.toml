@@ -1,0 +1,21 @@
+concurrent = 1
+
+[[runners]]
+  name = "local"
+  url = "https://gitlab.tupadr3.de/ci"
+  token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  tls-ca-file = ""
+  executor = "docker"
+  [runners.docker]
+    image = "docker:latest"
+    privileged = true
+    volumes = [
+    	#"/data/config/gitlab-runner/root/.npmrc:/root/.npmrc",
+    	"/cache:/cache",
+    	"/var/run/docker.sock:/var/run/docker.sock",
+    	"/sys:/sys",
+    	"/data/config/gitlab-runner/root/.m2/settings.xml:/usr/share/maven/ref/settings.xml",
+    	"/data/config/gitlab-runner/root/.docker:/root/.docker",
+    	"/data/config/gitlab-runner/root/.ssh:/root/.ssh",
+    	"/data/config/gitlab-runner/root/.gitconfig:/root/.gitconfig"
+    ]

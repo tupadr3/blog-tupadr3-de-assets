@@ -1,14 +1,12 @@
 gitlab-runner:
   container_name: gitlab-runner
-  image: sameersbn/gitlab-ci-multi-runner:1.1.4-7
-  privileged: true
   restart: always
+  privileged: true
+  image: gitlab/gitlab-runner:latest
   volumes:
-    - /data/config/gitlab-runner/assets/config.toml:/home/gitlab_ci_multi_runner/data/config.toml
-    - /data/config/gitlab-runner/assets/.ssh:/home/gitlab_ci_multi_runner/data/.ssh
+    - /data/config/gitlab-runner/root/.docker:/root/.docker
+    - /data/config/gitlab-runner/data:/etc/gitlab-runner
     - /var/run/docker.sock:/var/run/docker.sock
-  environment:
-    - RUNNER_DESCRIPTION=gitlab-ci-multi-runner
-    - RUNNER_EXECUTOR=docker
-    - RUNNER_TOKEN=xxxxxxx-RUNNER_TOKEN-xxxxxxx
-    - CI_SERVER_URL=https://xxxxxxx-CI_SERVER_URL-xxxxxxx/ci
+    - /etc/localtime:/etc/localtime:ro
+    
+    
