@@ -177,7 +177,8 @@ apt-get update && apt-get install docker-ce -y
 echo "{" > /etc/docker/daemon.json
 echo "\"storage-driver\": \"overlay2\"", >> /etc/docker/daemon.json
 echo "\"ipv6\": false," >> /etc/docker/daemon.json
-echo "\"iptables\": false" >> /etc/docker/daemon.json
+echo "\"iptables\": false," >> /etc/docker/daemon.json
+echo "\"graph\": \"/data/docker/daemon\"" >> /etc/docker/daemon.json
 echo "}" >> /etc/docker/daemon.json
 
 service docker restart
